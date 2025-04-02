@@ -1,4 +1,4 @@
-package lab3.pob3;
+package prob3;
 
 public class Cylinder extends Circle{
     
