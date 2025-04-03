@@ -1,4 +1,4 @@
-package lab3.src.edu.miu.lab3.prob3.composition;
+package edu.miu.lab3.prob3.composition;
 
 public class Cylinder {
     private Circle base;

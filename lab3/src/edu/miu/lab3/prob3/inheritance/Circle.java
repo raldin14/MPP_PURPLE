@@ -1,4 +1,4 @@
-package lab3.src.edu.miu.lab3.prob3.inheritance;
+package edu.miu.lab3.prob3.inheritance;
 
 public class Circle {
     private double radius;
