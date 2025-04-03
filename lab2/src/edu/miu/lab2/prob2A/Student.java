@@ -1,10 +1,18 @@
 package edu.miu.lab2.prob2A;
 
 public class Student {
+
+    private String name;
+
     private GradeReport report;
 
-    public Student() {
-        report = new GradeReport(this); // create GradeReport at the time of Student creation
+    public Student(String name) {
+        this.name = name;
+        this.report = new GradeReport(this);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public GradeReport getReport() {
@@ -13,6 +21,6 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student@" + Integer.toHexString(hashCode());
+        return "Student: " + name;
     }
 }

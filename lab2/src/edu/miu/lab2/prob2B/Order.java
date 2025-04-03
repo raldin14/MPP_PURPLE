@@ -4,18 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-    private List<Item> items = new ArrayList<>();
+    private String orderNum;
 
-    public void addItem(String name) {
-        items.add(new Item(name));
+    private List<OrderLine> orderLines;
+
+    public Order(String orderNum) {
+        this.orderNum = orderNum;
+        this.orderLines = new ArrayList<>();
     }
 
-    public List<Item> getItems() {
-        return items;
+    public void addOrderLine(String productName) {
+        OrderLine line = new OrderLine(productName);
+        orderLines.add(line);
+    }
+
+    public String getOrderNum() {
+        return orderNum;
+    }
+
+    public List<OrderLine> getOrderLines() {
+        return orderLines;
     }
 
     @Override
     public String toString() {
-        return "Order with items: " + items;
+        return "Order #" + orderNum + ", lines: " + orderLines;
     }
 }
