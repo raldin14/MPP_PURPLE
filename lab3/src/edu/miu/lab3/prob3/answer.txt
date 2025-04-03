@@ -1,0 +1,2 @@
+Does inheritance make sense?
+No, Inheritance doesen't make sense becasue a cylinder is not a type of a cirlce. Rather it is a three-dimensional shape that contains a circular base. Using inheritance is misleading because it implies that a Cylinder can be used wherever a Circle is expected. Instead, composition is more appropriate.
