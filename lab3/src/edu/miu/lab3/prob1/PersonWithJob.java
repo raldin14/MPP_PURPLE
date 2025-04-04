@@ -11,7 +11,7 @@ public class PersonWithJob {
     }
 
     public String getName() {
-        return person.getName();
+        return person.getName(); // delegation
     }
 
     public double getSalary() {
@@ -28,8 +28,13 @@ public class PersonWithJob {
 
     public static void main(String[] args) {
         PersonWithJob p1 = new PersonWithJob("Haining", 30000);
-        PersonWithJob p2 = new PersonWithJob("Haining", 30000);
-        System.out.println("p1.equals(p2)? " + p1.equals(p2)); // true
-        System.out.println("p2.equals(p1)? " + p2.equals(p1)); // true
+        // PersonWithJob p2 = new PersonWithJob("Haining", 30000);
+        Person haining = new Person("Haining");
+
+        // Both return false. That’s okay — as long as both return the same, we have preserved symmetry.
+        // removing the inheritance relationship, we avoid confusing comparisons between different types.
+        System.out.println("p1.equals(p2)? " + p1.equals(haining));
+        System.out.println("p2.equals(p1)? " + haining.equals(p1));
+
     }
 }
