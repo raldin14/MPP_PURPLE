@@ -5,6 +5,6 @@ import edu.miu.lab5.prob1.interfaces.QuackBehaviorInterface;
 public class Squeak implements QuackBehaviorInterface {
     @Override
     public void quack(){
-        System.out.println("squeaking");
+        System.out.println("  squeaking");
     }
 }

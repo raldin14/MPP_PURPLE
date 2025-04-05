@@ -1,9 +1,9 @@
 package edu.miu.lab5.prob1.duckTypes;
 
-import edu.miu.lab5.prob1.interfaces.QuackBehaviorInterface;
 import edu.miu.lab5.prob1.interfaces.FlyBehaivourInterface;
+import edu.miu.lab5.prob1.interfaces.QuackBehaviorInterface;
 
-public class Duck {
+ public abstract class Duck {
     QuackBehaviorInterface quackBehaviorInterface; 
     FlyBehaivourInterface flyBehaviorInterface;
     
@@ -12,13 +12,11 @@ public class Duck {
     }
 
      public void swim(){
-        System.out.println("swimming");
+        System.out.println("  swimming");
     }
 
 
-    public void display(){
-        System.out.println("display");
-    }
+     public abstract void display();
 
     
     public void fly(){
