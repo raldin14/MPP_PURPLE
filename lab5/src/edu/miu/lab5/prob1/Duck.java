@@ -1,9 +1,8 @@
-package lab5;
+package edu.miu.lab5.prob1;
 
-import lab5.interfaces.FlyBehaivourInterface;
 import lab5.interfaces.QuackBehaviorInterface;
 
-public class Duck implements QuackBehaviorInterface, FlyBehaivourInterface {
+public class Duck implements QuackBehaviorInterface, lab5.interfaces.FlyBehaivourInterface {
 
     @Override
     public  void  quack(){

@@ -1,6 +1,6 @@
-package lab5.duckTypes;
+package edu.miu.lab5.prob1.duckTypes;
 
-import lab5.Duck;
+import edu.miu.lab5.prob1.Duck;
 
 public class MallardDuck extends Duck{
         
