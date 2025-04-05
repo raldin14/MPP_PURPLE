@@ -8,9 +8,9 @@ public class MallardDuck extends Duck{
                 flyBehaviorInterface =  new FlyWithWings();
                 quackBehaviorInterface = new Quack();
         }
-        
+
         @Override
-        public void display(){
+                public void display(){
                 System.out.println("  display");
         }
 }
