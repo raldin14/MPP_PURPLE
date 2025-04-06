@@ -1,1 +1,15 @@
+# === IDEA settings ===
+.idea/
+*.iml
+out/
+
+# === OS files ===
 .DS_Store
+Thumbs.db
+
+# === Logs ===
+*.log
+
+# === Build ===
+/target/
+/build/
