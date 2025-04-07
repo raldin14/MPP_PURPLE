@@ -8,13 +8,14 @@ public class Order {
 
     private List<OrderLine> orderLines;
 
-    public Order(String orderNum) {
+    public Order(String orderNum, String firstProduct) {
         this.orderNum = orderNum;
         this.orderLines = new ArrayList<>();
+        addOrderLine(firstProduct);
     }
 
     public void addOrderLine(String productName) {
-        OrderLine line = new OrderLine(productName);
+        OrderLine line = new OrderLine(productName, this);
         orderLines.add(line);
     }
 
