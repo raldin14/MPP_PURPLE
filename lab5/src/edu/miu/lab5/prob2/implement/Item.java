@@ -1,14 +1,12 @@
-package edu.miu.lab5.prob2;
+package edu.miu.lab5.prob2.implement;
 
-public class Item {
-    String name;
+import edu.miu.lab5.prob2.IItem;
+
+public class Item implements IItem {
+    private String name;
 
     public Item(String name) {
         this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     @Override
