@@ -1,0 +1,70 @@
+Create database lab7;
+
+use lab7;
+
+-- DROP tables if they exist (for rerun safety)
+DROP TABLE IF EXISTS Booking;
+DROP TABLE IF EXISTS Room;
+DROP TABLE IF EXISTS Guest;
+DROP TABLE IF EXISTS Hotel;
+
+-- HOTEL Table
+CREATE TABLE Hotel (
+  hotelNo INT PRIMARY KEY,
+  hotelName VARCHAR(100),
+  city VARCHAR(50)
+);
+
+-- ROOM Table
+CREATE TABLE Room (
+  roomNo INT,
+  hotelNo INT,
+  type VARCHAR(20),
+  price DECIMAL(8,2),
+  PRIMARY KEY (hotelNo, roomNo),
+  FOREIGN KEY (hotelNo) REFERENCES Hotel(hotelNo)
+);
+
+-- GUEST Table
+CREATE TABLE Guest (
+  guestNo INT PRIMARY KEY,
+  guestName VARCHAR(100),
+  guestAddress VARCHAR(150)
+);
+
+-- BOOKING Table
+CREATE TABLE Booking (
+  hotelNo INT,
+  guestNo INT,
+  dateFrom DATE,
+  dateTo DATE,
+  roomNo INT,
+  PRIMARY KEY (hotelNo, guestNo, dateFrom),
+  FOREIGN KEY (hotelNo, roomNo) REFERENCES Room(hotelNo, roomNo),
+  FOREIGN KEY (guestNo) REFERENCES Guest(guestNo)
+);
+-- 
+-- Insert data for each one of the tables
+-- Insert Hotels
+INSERT INTO Hotel VALUES (1, 'Seaside Inn', 'Miami');
+INSERT INTO Hotel VALUES (2, 'Mountain View Lodge', 'Denver');
+INSERT INTO Hotel VALUES (3, 'City Central', 'New York');
+
+-- Insert Rooms
+INSERT INTO Room VALUES (101, 1, 'Single', 100.00);
+INSERT INTO Room VALUES (102, 1, 'Double', 150.00);
+INSERT INTO Room VALUES (201, 2, 'Suite', 250.00);
+INSERT INTO Room VALUES (202, 2, 'Single', 110.00);
+INSERT INTO Room VALUES (301, 3, 'Double', 180.00);
+
+-- Insert Guests
+INSERT INTO Guest VALUES (1, 'George Smith', '123 Main St, Miami');
+INSERT INTO Guest VALUES (2, 'Lily Adams', '456 Ocean Dr, Miami');
+INSERT INTO Guest VALUES (3, 'John Doe', '789 Elm St, Denver');
+
+-- Insert Bookings
+INSERT INTO Booking VALUES (1, 1, '2025-04-10', '2025-04-15', 101);
+INSERT INTO Booking VALUES (1, 2, '2025-04-12', '2025-04-14', 102);
+INSERT INTO Booking VALUES (2, 3, '2025-05-01', '2025-05-05', 201);
+
+
