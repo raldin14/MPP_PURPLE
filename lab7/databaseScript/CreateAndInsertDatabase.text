@@ -88,4 +88,34 @@ INSERT INTO Booking VALUES (5, 5, '2025-07-12', '2025-07-15', 203);
 INSERT INTO Booking VALUES (6, 6, '2025-08-01', '2025-08-04', 301);
 INSERT INTO Booking VALUES (7, 1, '2025-08-10', '2025-08-13', 303);
 
+-- Add Family Room to a hotel in London (hotelNo = 1)
+INSERT INTO Room (roomNo, hotelNo, type, price) 
+VALUES (105, 1, 'Family', 180.00);
 
+-- Add Family Room to a hotel in Edinburgh (hotelNo = 4)
+INSERT INTO Room (roomNo, hotelNo, type, price) 
+VALUES (204, 4, 'Family', 175.00);
+
+-- Add Family Room to a hotel in Bath (hotelNo = 6)
+INSERT INTO Room (roomNo, hotelNo, type, price) 
+VALUES (304, 6, 'Family', 185.00);
+
+INSERT INTO Guest (guestNo, guestName, guestAddress)
+VALUES 
+  (7, 'Emma Watson', '12 Baker Street, London, NW1 6XE'),
+  (8, 'Thomas Hughes', '44 Kensington High St, London, W8 7RG');
+
+-- Booking for Emma Watson
+INSERT INTO Booking (hotelNo, guestNo, dateFrom, dateTo, roomNo)
+VALUES (1, 7, '2025-08-20', '2025-08-25', 105);
+
+-- Booking for Thomas Hughes
+INSERT INTO Booking (hotelNo, guestNo, dateFrom, dateTo, roomNo)
+VALUES (1, 8, '2025-09-01', '2025-09-05', 105);
+
+update room set price = 35 where roomNo in (102,204,202);
+update room set price = 25 where roomNo in (103);
+update room set price = 20 where roomNo in (102);
+update room set price = 25 where roomNo in (304);
+INSERT INTO Booking (hotelNo,guestNo,dateFrom,roomNo) VALUES (6, 6, '2025-12-01',  301);
+INSERT INTO Booking (hotelNo,guestNo,dateFrom,roomNo) VALUES (7, 1, '2025-11-10', 303);
