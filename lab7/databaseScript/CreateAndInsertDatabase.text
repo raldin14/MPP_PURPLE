@@ -119,3 +119,29 @@ update room set price = 20 where roomNo in (102);
 update room set price = 25 where roomNo in (304);
 INSERT INTO Booking (hotelNo,guestNo,dateFrom,roomNo) VALUES (6, 6, '2025-12-01',  301);
 INSERT INTO Booking (hotelNo,guestNo,dateFrom,roomNo) VALUES (7, 1, '2025-11-10', 303);
+
+-- data for Subqueries And Joins
+INSERT INTO Hotel (hotelNo, hotelName, city)
+VALUES (8, 'Grosvenor Hotel', 'London');
+
+INSERT INTO Room (roomNo, hotelNo, type, price)
+VALUES
+  (401, 8, 'Double', 45.00),
+  (402, 8, 'Family', 55.00),
+  (403, 8, 'Single', 30.00);
+
+INSERT INTO Guest (guestNo, guestName, guestAddress)
+VALUES
+(9, 'George Mason', '89 Oxford Street, London'),
+(10, 'Linda Brown', '45 King’s Road, London');
+
+-- George
+INSERT INTO Booking (hotelNo, guestNo, dateFrom, dateTo, roomNo)
+VALUES (8, 9, '2025-04-06', '2025-04-10', 401);
+
+-- Linda
+INSERT INTO Booking (hotelNo, guestNo, dateFrom, dateTo, roomNo)
+VALUES (8, 10, '2025-03-15', '2025-03-20', 402);
+
+INSERT INTO Booking (hotelNo, guestNo, dateFrom, dateTo, roomNo)
+VALUES (8, 10, '2025-04-08', '2025-04-10', 403);

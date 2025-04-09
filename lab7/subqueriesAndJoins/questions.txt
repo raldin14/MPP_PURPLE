@@ -1,0 +1,5 @@
+6.16 List the price and type of all rooms at the Grosvenor Hotel.
+6.17 List all guests currently staying at the Grosvenor Hotel.
+6.18 List the details of all rooms at the Grosvenor Hotel, including the name of the guest staying in the room, if the
+room is occupied.
+6.19 What is the total income from bookings for the Grosvenor Hotel today?
