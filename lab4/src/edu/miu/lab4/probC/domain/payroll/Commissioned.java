@@ -26,9 +26,13 @@ public class Commissioned extends Employee {
     @Override
     protected double calcGrossPay(int month, int year) {
         double total = 0.0;
+
+        int prevMonth = (month == 1) ? 12 : month - 1;
+        int prevYear = (month == 1) ? year - 1 : year;
+
         for (Order o : orders) {
             LocalDate d = o.getOrderDate();
-            if (d.getYear() == year && d.getMonthValue() == month) {
+            if (d.getYear() == prevYear && d.getMonthValue() == prevMonth) {
                 total += o.getOrderAmount();
             }
         }
