@@ -12,6 +12,10 @@ public class CategoryService {
         categoryDao.save(category);
     }
 
+    public List<Category> getCategories() {
+        return categoryDao.listCategories();
+    }
+
     public List<Category> getCategoriesByUserId(int userId) {
         return categoryDao.findByUserId(userId);
     }

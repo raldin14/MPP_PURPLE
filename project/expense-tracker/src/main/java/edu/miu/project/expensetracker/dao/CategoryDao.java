@@ -10,6 +10,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryDao {
+    public List<Category> listCategories() {
+        List<Category> categories = new ArrayList<>();
+        String sql = "SELECT * FROM categories";
+
+        try (Connection conn = JdbcUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                categories.add(new Category(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getInt("user_id")
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return categories;
+    }
+
     public List<Category> findByUserId(int userId) {
         List<Category> categories = new ArrayList<>();
         String sql = "SELECT * FROM categories WHERE user_id = ?";
