@@ -2,9 +2,11 @@ package edu.miu.project.expensetracker.view;
 
 import edu.miu.project.expensetracker.model.Category;
 import edu.miu.project.expensetracker.model.Expense;
+import edu.miu.project.expensetracker.model.Report;
 import edu.miu.project.expensetracker.model.User;
 import edu.miu.project.expensetracker.service.CategoryService;
 import edu.miu.project.expensetracker.service.ExpenseService;
+import edu.miu.project.expensetracker.service.ReportService;
 import edu.miu.project.expensetracker.service.UserService;
 import edu.miu.project.expensetracker.session.Session;
 
@@ -14,9 +16,15 @@ import java.util.Scanner;
 
 public class MainMenu {
     private Scanner scanner = new Scanner(System.in);
+
     private UserService userService = new UserService();
+
     private CategoryService categoryService = new CategoryService();
+
     private ExpenseService expenseService = new ExpenseService();
+
+    private ReportService reportService = new ReportService();
+
 
     public void start() {
         while (true) {
@@ -83,6 +91,33 @@ public class MainMenu {
         System.out.println("Registration complete. Please login.\n");
     }
 
+    private void handleReportMenu(int userId) {
+        System.out.println("===== Report Menu =====");
+        System.out.println("1. Report by Category");
+        System.out.println("2. Report by Date Range");
+        System.out.print("Select: ");
+        String choice = scanner.nextLine();
+
+        switch (choice) {
+            case "1":
+                System.out.print("Enter category ID: ");
+                int categoryId = Integer.parseInt(scanner.nextLine());
+                Report report1 = reportService.generateByCategory(userId, categoryId);
+                System.out.println(report1);
+                break;
+            case "2":
+                System.out.print("Start date (yyyy-MM-dd): ");
+                LocalDate start = LocalDate.parse(scanner.nextLine());
+                System.out.print("End date (yyyy-MM-dd): ");
+                LocalDate end = LocalDate.parse(scanner.nextLine());
+                Report report2 = reportService.generateByDateRange(userId, start, end);
+                System.out.println(report2);
+                break;
+            default:
+                System.out.println("Invalid choice.");
+        }
+    }
+
     private void showAdminMenu() {
         System.out.println("\n===== Admin Menu =====");
         System.out.println("1. View All Users");
@@ -109,6 +144,7 @@ public class MainMenu {
         System.out.println("2. Add Category");
         System.out.println("3. View Expenses");
         System.out.println("4. Add Expense");
+        System.out.println("5. View Reports");
         System.out.println("0. Logout");
         System.out.print("Select: ");
         String choice = scanner.nextLine();
@@ -142,6 +178,9 @@ public class MainMenu {
                 Expense expense = new Expense(0, amount, description, date, userId, categoryId);
                 expenseService.addExpense(expense);
                 System.out.println("Expense added.");
+                break;
+            case "5":
+                handleReportMenu(userId);
                 break;
             case "0":
                 Session.logout();
