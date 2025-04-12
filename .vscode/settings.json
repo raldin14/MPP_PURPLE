@@ -1,0 +1,9 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ],
+    "java.project.sourcePaths": [
+        "project/expense-tracker/src/main/java",
+        "project/expense-tracker/src/main/resources"
+    ]
+}

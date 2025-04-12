@@ -27,6 +27,7 @@ public class JdbcUtil {
             url = props.getProperty("url");
             username = props.getProperty("username");
             password = props.getProperty("password");
+
         } catch (Exception e) {
             throw new RuntimeException("Failed to load database properties", e);
         }
