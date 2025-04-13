@@ -17,7 +17,15 @@ public class ExpenseService {
         return expenseDao.findByUserId(userId);
     }
 
+    public Expense getExpensesById(int userId, int id) {
+        return expenseDao.findById(userId,id);
+    }
+
     public List<Expense> searchExpenses(int userId, int categoryId, String description, LocalDate date){
         return expenseDao.searchExpenses(userId, categoryId, description, date);
+    }
+
+    public void updateExpense(Expense expense){
+        expenseDao.updateExpense(expense);
     }
 }

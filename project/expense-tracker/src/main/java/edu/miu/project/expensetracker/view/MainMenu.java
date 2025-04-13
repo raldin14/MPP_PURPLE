@@ -110,6 +110,8 @@ public class MainMenu {
         System.out.println("3. View Expenses");
         System.out.println("4. Add Expense");
         System.out.println("5. Search Expense");
+        System.out.println("6. Update Expense");
+        System.out.println("7. Delete Expense");
         System.out.println("0. Logout");
         System.out.print("Select: ");
         String choice = scanner.nextLine();
@@ -148,6 +150,38 @@ public class MainMenu {
                 break;
             case "5":
                 showSearchMenu();
+                break;
+            case "6":
+                expenseService.getExpensesByUserId(userId).forEach(System.out::println);
+                System.out.print("Choose expense to update: ");
+                int expenseId = Integer.parseInt(scanner.nextLine());
+                Expense expenseById = expenseService.getExpensesById(userId, expenseId);
+                System.out.print("Do you want to update amount? y/n: ");
+                String select = scanner.nextLine();
+                if(select.equals("y")){
+                    System.out.print("New amount: ");
+                    expenseById.setAmount(Double.parseDouble(scanner.nextLine()));
+                }
+                System.out.print("Do you want to update description? y/n: ");
+                select = scanner.nextLine();
+                if(select.equals("y")){
+                    System.out.print("New Description: ");
+                    expenseById.setDescription(scanner.nextLine());
+                }
+                System.out.print("Do you want to update Date? y/n: ");
+                select = scanner.nextLine();
+                if(select.equals("y")){
+                    System.out.print("New Date ex. (yyyy-mm-dd): ");
+                    expenseById.setDate(LocalDate.parse(scanner.nextLine()));;
+                }
+                System.out.print("Do you want to update Category? y/n: ");
+                select = scanner.nextLine();
+                if(select.equals("y")){
+                    categoryService.getCategories().forEach(System.out::println);
+                    System.out.print("Choose new category ID: ");
+                    expenseById.setCategoryId(Integer.parseInt(scanner.nextLine()));
+                }
+                expenseService.updateExpense(expenseById);
                 break;
             case "0":
                 Session.logout();
