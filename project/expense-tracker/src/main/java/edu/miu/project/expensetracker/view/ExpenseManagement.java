@@ -48,8 +48,10 @@ public class ExpenseManagement {
                 break;
             case "2":
                 expenseService.getExpensesByUserId(userId).forEach(exp -> {
+                    totalRexpnse += exp.getAmount();
                     System.out.println(" ID: "+exp.getId()+" Amount: "+exp.getAmount()+" Description: "+exp.getDescription()+" Date: "+exp.getDate()+" CategoryID: "+exp.getCategoryId());
                 });
+                System.out.printf("Total Amount of Expenses : %.2f",totalRexpnse);
                 break;
             case "3":
                 do{
