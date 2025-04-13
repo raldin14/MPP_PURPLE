@@ -158,4 +158,22 @@ public class ExpenseDao {
         }
 
     }
+
+    public void deleteExpense(Expense expense){
+        String sql = "DELETE FROM expenses WHERE user_id = ? AND id = ?";
+
+        try (Connection conn = JdbcUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, expense.getUserId());
+            stmt.setInt(2, expense.getId());
+
+            stmt.executeUpdate();
+
+            System.out.println("\nExpense Deleted : \nDescription : "+expense.getDescription()+"\nAmount : "+expense.getAmount()+"\nDate : "+expense.getDate());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }
