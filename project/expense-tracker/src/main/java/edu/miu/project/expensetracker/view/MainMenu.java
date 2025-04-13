@@ -107,15 +107,13 @@ public class MainMenu {
         System.out.println("\n===== User Menu =====");
         System.out.println("1. View Categories");
         System.out.println("2. Add Category");
-        System.out.println("3. View Expenses");
-        System.out.println("4. Add Expense");
-        System.out.println("5. Search Expense");
+        System.out.println("3. Expenses Management");
         System.out.println("0. Logout");
         System.out.print("Select: ");
         String choice = scanner.nextLine();
 
         int userId = Session.getCurrentUser().getId();
-
+        ExpenseManagement exMnt = new ExpenseManagement(userId);
         switch (choice) {
             case "1":
                 categoryService.getCategoriesByUserId(userId).forEach(System.out::println);
@@ -129,67 +127,10 @@ public class MainMenu {
                 System.out.println("Category added.");
                 break;
             case "3":
-                expenseService.getExpensesByUserId(userId).forEach(System.out::println);
-                break;
-            case "4":
-                System.out.print("Amount: ");
-                double amount = Double.parseDouble(scanner.nextLine());
-                System.out.print("Description: ");
-                String description = scanner.nextLine();
-                System.out.print("Date (yyyy-mm-dd): ");
-                LocalDate date = LocalDate.parse(scanner.nextLine());
-                System.out.println("List of all categories");
-                categoryService.getCategories().forEach(System.out::println);
-                System.out.print("Category ID: ");
-                int categoryId = Integer.parseInt(scanner.nextLine());
-                Expense expense = new Expense(0, amount, description, date, userId, categoryId);
-                expenseService.addExpense(expense);
-                System.out.println("Expense added.");
-                break;
-            case "5":
-                showSearchMenu();
+                exMnt.startExpenses();
                 break;
             case "0":
                 Session.logout();
-                break;
-            default:
-                System.out.println("Invalid choice.");
-        }
-    }
-
-    private void showSearchMenu(){
-        int categoryId = 0;
-        String description = "";
-        LocalDate date = null;
-        int userId = Session.getCurrentUser().getId();
-        
-        System.out.println("\n===== Search Menu =====");
-        System.out.println("1. Search by Category");
-        System.out.println("2. Search by Description");
-        System.out.println("3. Search by Date");
-        System.out.println("0. Back to previous menu");
-        System.out.print("Select: ");
-        String choice = scanner.nextLine();
-        switch (choice) {
-            case "1":
-                System.out.println("List of all categories");
-                categoryService.getCategories().forEach(System.out::println);
-                System.out.print("Category ID: ");
-                categoryId = Integer.parseInt(scanner.nextLine());
-                expenseService.searchExpenses(userId,categoryId,description,date).forEach(System.out::println);
-                break;
-            case "2":
-                System.out.print("Description: ");
-                description = scanner.nextLine();
-                expenseService.searchExpenses(userId,categoryId,description,date).forEach(System.out::println);
-                break;
-            case "3":
-                System.out.print("Date (yyyy-mm-dd): ");
-                date = LocalDate.parse(scanner.nextLine());
-                expenseService.searchExpenses(userId,categoryId,description,date).forEach(System.out::println);
-                break;
-            case "0":
-                start();
                 break;
             default:
                 System.out.println("Invalid choice.");
