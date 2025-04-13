@@ -12,8 +12,8 @@ public class Main {
         System.out.println(" Welcome to Expense Tracker Console App ");
         System.out.println("=====================================");
 
-       try (Connection connection = JdbcUtil.getConnection()) {
-           if (connection != null) {
+        try (Connection connection = JdbcUtil.getConnection()) {
+            if (connection != null) {
                 System.out.println("Database connection successful!");
             } else {
                 System.out.println("Failed to connect to database.");

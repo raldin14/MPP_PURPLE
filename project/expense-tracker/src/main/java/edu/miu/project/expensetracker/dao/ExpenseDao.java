@@ -39,6 +39,33 @@ public class ExpenseDao {
         }
         return expenses;
     }
+
+    public Expense findById(int userId, int id){
+        Expense expenses = new Expense();
+        String sql = "SELECT * FROM expenses WHERE user_id = ? AND id = ?";
+
+        try (Connection conn = JdbcUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)){
+            
+                stmt.setInt(1, userId);
+                stmt.setInt(2, id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                expenses.setId(rs.getInt("id"));
+                expenses.setAmount(rs.getDouble("amount"));
+                expenses.setDescription(rs.getString("description"));
+                expenses.setDate(rs.getDate("date").toLocalDate());
+                expenses.setUserId(rs.getInt("user_id"));
+                expenses.setCategoryId(rs.getInt("category_id"));
+            }
+            
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+        return expenses;
+    }
+
     //Search expenses by category, date, or description
     public List<Expense> searchExpenses(int userId, int categoryId, String description, LocalDate date){
         List<Expense> expenses = new ArrayList<>();
@@ -103,8 +130,32 @@ public class ExpenseDao {
             stmt.setInt(5, expense.getCategoryId());
 
             stmt.executeUpdate();
+
+            System.out.println("\nExpense added : \nDescription : "+expense.getDescription()+"\nAmount : "+expense.getAmount()+"\nDate : "+expense.getDate()+"\nCategory : "+expense.getCategoryId());
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void updateExpense(Expense expense){
+        String sql = "UPDATE expenses set amount = ?, description = ?, date = ?,category_id = ? WHERE user_id = ? AND id = ?";
+
+        try (Connection conn = JdbcUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setDouble(1, expense.getAmount());
+            stmt.setString(2, expense.getDescription());
+            stmt.setDate(3, Date.valueOf(expense.getDate()));
+            stmt.setInt(4, expense.getCategoryId());
+            stmt.setInt(5, expense.getUserId());
+            stmt.setInt(6, expense.getId());
+
+            stmt.executeUpdate();
+
+            System.out.println("\nExpense updated : \nDescription : "+expense.getDescription()+"\nAmount : "+expense.getAmount()+"\nDate : "+expense.getDate());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
