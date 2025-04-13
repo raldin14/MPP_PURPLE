@@ -28,4 +28,8 @@ public class ExpenseService {
     public void updateExpense(Expense expense){
         expenseDao.updateExpense(expense);
     }
+
+    public void deleteExpense(Expense expense){
+        expenseDao.deleteExpense(expense);
+    }
 }
