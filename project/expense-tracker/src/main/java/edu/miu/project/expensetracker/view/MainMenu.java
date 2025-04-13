@@ -136,43 +136,4 @@ public class MainMenu {
                 System.out.println("Invalid choice.");
         }
     }
-
-    private void showSearchMenu(){
-        int categoryId = 0;
-        String description = "";
-        LocalDate date = null;
-        int userId = Session.getCurrentUser().getId();
-        
-        System.out.println("\n===== Search Menu =====");
-        System.out.println("1. Search by Category");
-        System.out.println("2. Search by Description");
-        System.out.println("3. Search by Date");
-        System.out.println("0. Back to previous menu");
-        System.out.print("Select: ");
-        String choice = scanner.nextLine();
-        switch (choice) {
-            case "1":
-                System.out.println("List of all categories");
-                categoryService.getCategories().forEach(System.out::println);
-                System.out.print("Category ID: ");
-                categoryId = Integer.parseInt(scanner.nextLine());
-                expenseService.searchExpenses(userId,categoryId,description,date).forEach(System.out::println);
-                break;
-            case "2":
-                System.out.print("Description: ");
-                description = scanner.nextLine();
-                expenseService.searchExpenses(userId,categoryId,description,date).forEach(System.out::println);
-                break;
-            case "3":
-                System.out.print("Date (yyyy-mm-dd): ");
-                date = LocalDate.parse(scanner.nextLine());
-                expenseService.searchExpenses(userId,categoryId,description,date).forEach(System.out::println);
-                break;
-            case "0":
-                start();
-                break;
-            default:
-                System.out.println("Invalid choice.");
-        }
-    }
 }
