@@ -61,13 +61,13 @@ public class MainMenu {
         System.out.print("Password: ");
         String password = scanner.nextLine();
 
-        User user = userService.login(username, password);
-        if (user != null) {
-            Session.setCurrentUser(user);
-            System.out.println("Login successful!\n");
-        } else {
-            System.out.println("Login failed. Invalid credentials.\n");
-        }
+        // User user = userService.login(username, password);
+        // if (user != null) {
+        //     Session.setCurrentUser(user);
+        //     System.out.println("Login successful!\n");
+        // } else {
+        //     System.out.println("Login failed. Invalid credentials.\n");
+        // }
     }
 
     private void handleRegister() {
@@ -79,7 +79,7 @@ public class MainMenu {
         double budget = Double.parseDouble(scanner.nextLine());
 
         User user = new User(0, username, password, "USER", budget);
-        userService.register(user);
+        // userService.register(user);
         System.out.println("Registration complete. Please login.\n");
     }
 
@@ -92,8 +92,8 @@ public class MainMenu {
 
         switch (choice) {
             case "1":
-                List<User> users = userService.getAllUsers();
-                users.forEach(System.out::println);
+                // List<User> users = userService.getAllUsers();
+                // users.forEach(System.out::println);
                 break;
             case "0":
                 Session.logout();
