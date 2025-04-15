@@ -1,6 +1,7 @@
-package lesson7.labs.prob1.partB;
+package edu.miu.lab9.prob1.partC;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class EmployeeInfo {
@@ -12,33 +13,25 @@ public class EmployeeInfo {
 	 * instance if the two instances have the same name and salary.
 	 */
 	public static List<Employee> removeDuplicates(List<Employee> employees) {
+		HashMap<Employee, Employee> tracker = new HashMap<>();
 		List<Employee> noDupsList = new ArrayList<>();
-		noDupsList.add(employees.get(0));
-		for(int i = 1; i < employees.size(); ++i) {
-			if(!inList(employees.get(i), noDupsList)) {
-				noDupsList.add(employees.get(i));
+		for(int i = 0; i < employees.size(); ++i) {
+			Employee e = employees.get(i);
+			if(!tracker.containsKey(e)) {
+				tracker.put(e, e);
+				noDupsList.add(e);
 			}
 		}
 		return noDupsList;
 	}
 	
-	/** Returns true if e is in the list emps, false otherwise */
-	private static boolean inList(Employee e, List<Employee> emps) {
-		for(Employee emp : emps) {
-			if(e.equals(emp)) return true;
-		}
-		return false;
-	}
+	
 	
 	/**
 	 * Tests to see if solution is correct
 	 * What's wrong here?
 	 */
-	public static void main(String[] args) {
-		//calling alot of add methods instead of looping
-		//adding the object in the bracess instaded of the brckets
-		// the ethod is too manual no logic at all
-
+	public static void main(String[] args) {	
 		List<Employee> list = new ArrayList<Employee>() {
 			{
 				add(new Employee("Richard", 55000));
@@ -90,7 +83,7 @@ public class EmployeeInfo {
 	
 	/**
 	 * Returns true if the two lists have the same size and contain exactly the same
-	 * elements (this is just set equality)
+	 * elements (this is really just set equality)
 	 */
 	public static boolean listsAreEqual(List<Employee> l1, List<Employee> l2) {
 		if(l1.size() != l2.size()) return false;

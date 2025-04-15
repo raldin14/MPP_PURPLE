@@ -1,11 +1,10 @@
-package lesson7.labs.prob1.partC;
+package edu.miu.lab9.prob1.partD;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class EmployeeInfo {
-	
 	
 	/**
 	 * Removes all duplicate Employee instances from input list (only a copy is modified)
@@ -20,6 +19,8 @@ public class EmployeeInfo {
 			if(!tracker.containsKey(e)) {
 				tracker.put(e, e);
 				noDupsList.add(e);
+			} else {
+				tracker.get(e).setVisited(true);
 			}
 		}
 		return noDupsList;
@@ -76,7 +77,6 @@ public class EmployeeInfo {
 				add(new Employee("Bob", 60000));
 			}
 		};
-
 		List<Employee> answer = removeDuplicates(list);
 		System.out.println("Is answer correct? " + listsAreEqual(answer, dupsRemoved));
 	}

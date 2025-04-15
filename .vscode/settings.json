@@ -4,7 +4,8 @@
         "/Users/naomekizza/Downloads/mysql-connector-j-9.2.0.jar"
     ],
     "java.project.sourcePaths": [
+        "project/expense-tracker/src/main/resources",
         "project/expense-tracker/src/main/java",
-        "project/expense-tracker/src/main/resources"
+        "lab9/src/main/java/edu/miu/lab9/prob1/partB"
     ]
 }

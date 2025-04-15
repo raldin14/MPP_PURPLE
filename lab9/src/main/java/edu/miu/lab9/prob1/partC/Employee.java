@@ -1,4 +1,4 @@
-package lesson7.labs.prob1.partC;
+package  edu.miu.lab9.prob1.partC;
 
 import java.util.Objects;
 
