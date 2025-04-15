@@ -1,4 +1,4 @@
-package edu.miu.lab9.prob1.ProbD;
+package edu.miu.lab9.prob1.partE;
 
 interface C extends A {
     default void doSomething() {
