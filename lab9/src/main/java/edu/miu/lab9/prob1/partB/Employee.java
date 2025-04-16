@@ -1,4 +1,4 @@
-package edu.miu.lab9.prob1.partB;
+package src.main.java.edu.miu.lab9.prob1.partB;
 
 
 import java.util.Objects;
