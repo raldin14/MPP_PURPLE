@@ -1,4 +1,4 @@
-package edu.miu.lab10.prob2.partA;
+package edu.miu.lab10.prob2.A;
 
 import java.util.Collections;
 import java.util.List;

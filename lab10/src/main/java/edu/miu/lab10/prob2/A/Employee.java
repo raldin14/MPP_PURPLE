@@ -1,4 +1,4 @@
-package edu.miu.lab10.prob2.partA;
+package edu.miu.lab10.prob2.A;
 
 
 public class Employee {
