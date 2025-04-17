@@ -1,0 +1,11 @@
+{
+    "java.project.sourcePaths": [
+        "project/expense-tracker/src/main/java",
+        "lab11/src/main/java",
+        "project/expense-tracker/src/main/resources"
+    ],
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "/Users/raldind.hidalgo/Documents/MIU/MPP CS401/mysql-connector-j-9.2.0.jar"
+    ]
+}
