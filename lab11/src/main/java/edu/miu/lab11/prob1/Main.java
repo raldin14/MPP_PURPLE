@@ -1,4 +1,6 @@
-package myLab11.prob1;
+package edu.miu.lab11.prob1;
+
+
 import java.time.LocalDate;
 import java.util.*;
 public class Main {
@@ -13,12 +15,8 @@ public class Main {
 	//Uses flatMap to write to console a list of all order items
 	private void showAllOrderItems() {
 		System.out.println("\n==============\nAll order items:");
-		/**
-		 * Carry out this
-			implementation (using the technique described in the slides) by embedding the Orders list in a Stream and using flatMap.
-		 */
-		orders.stream().flatMap(order->order.getOrderItems().stream()).forEach(System.out::println);
 		//implement
+		orders.stream().flatMap(order->order.getOrderItems().stream()).forEach(System.out::println);
 
 	}
 	
