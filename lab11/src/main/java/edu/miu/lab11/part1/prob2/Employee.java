@@ -1,4 +1,4 @@
-package edu.miu.lab11.prob2;
+package edu.miu.lab11.part1.prob2;
 
 import java.util.ArrayList;
 import java.util.Comparator;

@@ -1,4 +1,4 @@
-package edu.miu.lab11.prob3;
+package edu.miu.lab11.part1.prob3;
 
 import java.util.stream.Stream;
 

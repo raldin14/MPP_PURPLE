@@ -1,4 +1,4 @@
-package edu.miu.lab11.prob1;
+package edu.miu.lab11.part1.prob1;
 
 
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package edu.miu.lab11.prob1;
+package edu.miu.lab11.part1.prob1;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -6,7 +6,7 @@ import java.util.*;
 public class Order {
 	private String orderId;
 	private LocalDate dateOfOrder;
-	private List<edu.miu.lab11.prob1.OrderItem> orderItems;
+	private List<OrderItem> orderItems;
 	public Order(LocalDate date, String orderId, String itemid, int quantity, int price) {
 		this.orderId = orderId;
 		dateOfOrder = date;
