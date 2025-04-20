@@ -1,0 +1,11 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "/Users/naomekizza/Downloads/junit-4.12.jar"
+    ],
+    "java.project.sourcePaths": [
+        "project/expense-tracker/src/main/java",
+        "lab11/src/main/java",
+        "project/expense-tracker/src/main/resources"
+    ]
+}

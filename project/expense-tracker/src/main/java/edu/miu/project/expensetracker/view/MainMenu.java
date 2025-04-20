@@ -78,9 +78,9 @@ public class MainMenu {
         System.out.print("Enter budget limit: ");
         double budget = Double.parseDouble(scanner.nextLine());
 
-        User user = new User(0, username, password, "USER", budget);
-        // userService.register(user);
-        System.out.println("Registration complete. Please login.\n");
+        User user = new User(username, password, "USER", budget);
+         userService.register(user);
+//        System.out.println("Registration complete. Please login.\n");
     }
 
     private void showAdminMenu() {

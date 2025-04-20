@@ -21,6 +21,13 @@ public class User {
         this.role = role;
         this.budgetLimit = budgetLimit;
     }
+    public User(String username, String password, String role, double budgetLimit) {
+        //this.id = id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.budgetLimit = budgetLimit;
+    }
 
     public int getId() {
         return id;

@@ -1,9 +1,11 @@
 package edu.miu.lab11.part1.prob2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class Employee {
@@ -51,6 +53,13 @@ public class Employee {
 				.collect(Collectors.toList())
 		);
 
-	}
+//
+//			List<String> list = Arrays.asList("Joe", "Tom", "Abe");
+//			Stream<Stream<Character>> result
+//					= list.stream()
+//					.map(s -> characterStream(s));
+		}
+
+
 }
 

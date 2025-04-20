@@ -6,11 +6,9 @@ public class UserService {
 
     private UserDao userDao = new UserDao();
 
-    // public void registerUser(User user){
-    //     userDao.save(user);
-    // }
-    //
-    // public login(User user){
-    //     userDao.save();
-    // }
+    public void register(User user){
+        user.setRole("USER");
+        userDao.saveUser(user);
+    }
+
 }
