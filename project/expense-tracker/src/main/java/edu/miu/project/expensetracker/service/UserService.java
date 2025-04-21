@@ -11,4 +11,8 @@ public class UserService {
         userDao.saveUser(user);
     }
 
+    public void  login(User user){
+        userDao.validateUser(user);
+    }
+
 }

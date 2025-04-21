@@ -27,6 +27,7 @@ public class JdbcUtil {
             url = props.getProperty("url");
             username = props.getProperty("username");
             password = props.getProperty("password");
+
         } catch (Exception e) {
 //            e.printStackTrace(); // change this line
             throw new RuntimeException("Database connection failed", e);
@@ -37,6 +38,7 @@ public class JdbcUtil {
     public static Connection getConnection() {
         try {
             return DriverManager.getConnection(url, username, password);
+
         } catch (Exception e) {
             throw new RuntimeException("Database connection failed", e);
         }

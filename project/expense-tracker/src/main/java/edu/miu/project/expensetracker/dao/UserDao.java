@@ -7,6 +7,7 @@ import edu.miu.project.expensetracker.model.User;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDao {
@@ -26,6 +27,24 @@ public class UserDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public  void  validateUser(User user){
+        String sql = "SELECT * FROM user WHERE  username = ? and password = ?";
+        try (Connection conn = JdbcUtil.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setString(1,user.getUsername());
+            stmt.setString(2,user.getPassword());
+
+            ResultSet rs = stmt.executeQuery();
+
+
+        }catch  (Exception e){
+            e.printStackTrace();
+        }
+        System.out.println("Success");
+
     }
 
 }
