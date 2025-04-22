@@ -21,7 +21,7 @@ public class Main {
         ints2.add(1);
         ints2.add(2);
         List<? extends Number> nums2 = ints;
-        nums2.add(3.14);
+        nums2.add(3);
 
         /** Answer:
          * Compiler error occurs on the 5th line:
