@@ -38,7 +38,7 @@ public class MainMenu {
         System.out.println("1. Login");
         System.out.println("2. Register");
         System.out.println("0. Exit");
-        System.out.print("Select: ");
+        System.out.print("Select an option: ");
         String choice = scanner.nextLine();
 
         switch (choice) {
@@ -56,31 +56,74 @@ public class MainMenu {
     }
 
     private void handleLogin() {
-        System.out.print("Username: ");
+        System.out.print("Enter username: ");
         String username = scanner.nextLine();
-        System.out.print("Password: ");
+        System.out.print("Enter password: ");
         String password = scanner.nextLine();
 
-        // User user = userService.login(username, password);
-        // if (user != null) {
-        //     Session.setCurrentUser(user);
-        //     System.out.println("Login successful!\n");
-        // } else {
-        //     System.out.println("Login failed. Invalid credentials.\n");
-        // }
+        User user = userService.login(username, password);
+        if (user != null) {
+            Session.setCurrentUser(user);
+            System.out.println("Login successful!\n");
+        } else {
+            System.out.println("Login failed. Invalid credentials.\n");
+        }
     }
 
-    private void handleRegister() {
-        System.out.print("Choose a username: ");
-        String username = scanner.nextLine();
-        System.out.print("Choose a password: ");
-        String password = scanner.nextLine();
-        System.out.print("Enter budget limit: ");
-        double budget = Double.parseDouble(scanner.nextLine());
+//    private void handleRegister() {
+//        System.out.print("Choose a username: ");
+//        String username = scanner.nextLine();
+//        System.out.print("Choose a password: ");
+//        String password = scanner.nextLine();
+//        System.out.print("Enter budget limit: ");
+//        double budget = Double.parseDouble(scanner.nextLine());
+//
+//        User user = new User(username, password, "USER", budget);
+//         userService.register(user);
 
-        User user = new User(username, password, "USER", budget);
-         userService.register(user);
-//        System.out.println("Registration complete. Please login.\n");
+    /// /        System.out.println("Registration complete. Please login.\n");
+//    }
+    private void handleRegister() {
+        while (true) {
+            System.out.print("Choose a username: ");
+            String username = scanner.nextLine();
+
+            if (username.isBlank() || username.length() < 4) {
+                System.out.println("Username must be at least 4 characters and not blank.");
+                continue;
+            }
+
+            System.out.print("Choose a password: ");
+            String password = scanner.nextLine();
+
+
+            System.out.print("Enter budget limit: ");
+            double budget;
+            try {
+                budget = Double.parseDouble(scanner.nextLine());
+                if (budget <= 0) {
+                    System.out.println("Budget must be a positive number.");
+                    continue;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Budget must be a numeric value.");
+                continue;
+            }
+
+            User user = new User(username, password, "USER", budget);
+            if (userService.register(user)) {
+                System.out.println("Registration successful. Please Login\n");
+
+                break; // Exit loop after successful registration
+
+
+            }
+            ;
+            System.out.println("Registration failed.\n");
+            continue;
+
+
+        }
     }
 
     private void showAdminMenu() {

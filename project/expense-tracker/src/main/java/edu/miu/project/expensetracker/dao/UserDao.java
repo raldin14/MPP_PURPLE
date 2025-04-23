@@ -12,7 +12,13 @@ import java.sql.SQLException;
 
 public class UserDao {
 
-    public void saveUser(User user) {
+    public boolean saveUser(User user) {
+
+        if (usernameExists(user.getUsername())) {
+            System.out.println("Username already exists. Please choose another.");
+            return false;
+        }
+
         String query = "INSERT INTO users (username, password, role, budget_limit) VALUES(?,?, ?, ?)";
 
         try (Connection conn = JdbcUtil.getConnection();
@@ -23,28 +29,58 @@ public class UserDao {
             stmt.setBigDecimal(4, BigDecimal.valueOf(user.getBudgetLimit()));
             stmt.executeUpdate();
             System.out.println("User added");
+            return true;
 
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
-    public  void  validateUser(User user){
-        String sql = "SELECT * FROM user WHERE  username = ? and password = ?";
+    public boolean usernameExists(String username) {
+        String query = "SELECT COUNT(*) FROM users WHERE username = ?";
         try (Connection conn = JdbcUtil.getConnection();
-        PreparedStatement stmt = conn.prepareStatement(sql)){
-
-            stmt.setString(1,user.getUsername());
-            stmt.setString(2,user.getPassword());
-
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
-
-
-        }catch  (Exception e){
-            e.printStackTrace();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // or use a logger
         }
-        System.out.println("Success");
-
+        return false;
     }
+
+
+    public User findByUsernameAndPassword(String username, String password) {
+        String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+
+        try (Connection conn = JdbcUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    String role = rs.getString("role");
+                    double budget = rs.getDouble("budget_limit");
+                    return new User(username, null, role, budget);
+
+
+                } else {
+                    System.out.println("Invalid username or password.");
+                    return null;
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("An error occurred during login.");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
 }
