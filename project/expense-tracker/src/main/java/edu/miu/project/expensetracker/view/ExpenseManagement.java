@@ -12,7 +12,7 @@ public class ExpenseManagement {
     private Scanner scanner = new Scanner(System.in);
     private CategoryService categoryService = new CategoryService();
     private ExpenseService expenseService = new ExpenseService();
-
+    //Get the budget limit and add try catch
     private int userId;
     private double totalRexpnse = 0;
     private boolean mnt;

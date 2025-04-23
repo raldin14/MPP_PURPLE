@@ -55,6 +55,26 @@ public class MainMenu {
         }
     }
 
+    private String promptForRole() {
+        while (true) {
+            System.out.println("Select Role:");
+            System.out.println("1. Admin");
+            System.out.println("2. User");
+            System.out.print("Enter choice (1 or 2): ");
+            String roleChoice = scanner.nextLine();
+
+            switch (roleChoice) {
+                case "1":
+                    return "ADMIN";
+                case "2":
+                    return "USER";
+                default:
+                    System.out.println("Invalid choice. Please select 1 or 2.");
+            }
+        }
+    }
+
+
     private void handleLogin() {
         System.out.print("Enter username: ");
         String username = scanner.nextLine();
@@ -64,26 +84,16 @@ public class MainMenu {
         User user = userService.login(username, password);
         if (user != null) {
             Session.setCurrentUser(user);
+
             System.out.println("Login successful!\n");
         } else {
             System.out.println("Login failed. Invalid credentials.\n");
         }
     }
 
-//    private void handleRegister() {
-//        System.out.print("Choose a username: ");
-//        String username = scanner.nextLine();
-//        System.out.print("Choose a password: ");
-//        String password = scanner.nextLine();
-//        System.out.print("Enter budget limit: ");
-//        double budget = Double.parseDouble(scanner.nextLine());
-//
-//        User user = new User(username, password, "USER", budget);
-//         userService.register(user);
 
-    /// /        System.out.println("Registration complete. Please login.\n");
-//    }
     private void handleRegister() {
+        User userRole = Session.getCurrentUser();
         while (true) {
             System.out.print("Choose a username: ");
             String username = scanner.nextLine();
@@ -93,24 +103,33 @@ public class MainMenu {
                 continue;
             }
 
+
             System.out.print("Choose a password: ");
             String password = scanner.nextLine();
 
-
-            System.out.print("Enter budget limit: ");
+            String role = userRole == null ? "USER" : promptForRole();
             double budget;
-            try {
-                budget = Double.parseDouble(scanner.nextLine());
-                if (budget <= 0) {
-                    System.out.println("Budget must be a positive number.");
+
+            if (role.equals("USER")) {
+                System.out.print("Enter budget limit: ");
+
+                try {
+                    budget = Double.parseDouble(scanner.nextLine());
+                    if (budget <= 0) {
+                        System.out.println("Budget must be a positive number.");
+                        continue;
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Budget must be a numeric value.");
                     continue;
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Budget must be a numeric value.");
-                continue;
+
+            } else {
+                budget = 0.0;
             }
 
-            User user = new User(username, password, "USER", budget);
+
+            User user = new User(username, password, role, budget);
             if (userService.register(user)) {
                 System.out.println("Registration successful. Please Login\n");
 
@@ -129,14 +148,20 @@ public class MainMenu {
     private void showAdminMenu() {
         System.out.println("\n===== Admin Menu =====");
         System.out.println("1. View All Users");
+        System.out.println("2. Register Users/Admin");
         System.out.println("0. Logout");
         System.out.print("Select: ");
         String choice = scanner.nextLine();
 
         switch (choice) {
             case "1":
-                // List<User> users = userService.getAllUsers();
-                // users.forEach(System.out::println);
+                List<User> users = userService.getAllUsers();
+                users.forEach(user -> {
+                    System.out.println("Id: "+user.getId()+" Username: "+user.getUsername()+" Role: "+user.getRole()+" Budget Limit: $"+user.getBudgetLimit());
+                });
+                break;
+            case "2":
+                handleRegister();
                 break;
             case "0":
                 Session.logout();
@@ -156,6 +181,7 @@ public class MainMenu {
         String choice = scanner.nextLine();
 
         int userId = Session.getCurrentUser().getId();
+        System.out.println(userId);
         ExpenseManagement exMnt = new ExpenseManagement(userId);
         switch (choice) {
             case "1":

@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDao {
 
@@ -64,9 +66,10 @@ public class UserDao {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
+                    int id = rs.getInt("id");
                     String role = rs.getString("role");
                     double budget = rs.getDouble("budget_limit");
-                    return new User(username, null, role, budget);
+                    return new User(id,username, null, role, budget);
 
 
                 } else {
@@ -81,6 +84,32 @@ public class UserDao {
             return null;
         }
     }
+
+
+    public List<User> listAllUsers() {
+        List<User> users = new ArrayList<>();
+        String query = "SELECT id, username, role,budget_limit FROM users";
+
+        try (Connection conn = JdbcUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setUsername(rs.getString("username"));
+                user.setRole(rs.getString("role"));
+                user.setBudgetLimit((rs.getDouble("budget_limit")));
+                users.add(user);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // or use a logger
+        }
+
+        return users;
+    }
+
 
 
 }
