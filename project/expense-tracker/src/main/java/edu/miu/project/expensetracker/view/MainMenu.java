@@ -230,7 +230,7 @@ public class MainMenu {
         ExpenseManagement exMnt = new ExpenseManagement(userId, budgetLimit);
         switch (choice) {
             case "1":
-                categoryService.getCategoriesByUserId(userId).forEach(System.out::println);
+                categoryService.getCategories().forEach(System.out::println);
                 break;
             case "2":
                 exMnt.startExpenses();
