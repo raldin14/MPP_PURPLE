@@ -15,6 +15,7 @@ public class ExpenseManagement {
     //Get the budget limit and add try catch
     private int userId;
     private double totalRexpnse = 0;
+    private double budgetLimit = 0;
     private boolean mnt;
     public ExpenseManagement(int userId){
         this.userId = userId;
@@ -55,57 +56,66 @@ public class ExpenseManagement {
                 break;
             case "3":
                 do{
-                    System.out.print("Amount: ");
-                    double amount = Double.parseDouble(scanner.nextLine());
-                    System.out.print("Description: ");
-                    String description = scanner.nextLine();
-                    System.out.print("Date (yyyy-mm-dd): ");
-                    LocalDate date = LocalDate.parse(scanner.nextLine());
-                    System.out.println("List of all categories");
-                    categoryService.getCategories().forEach(System.out::println);
-                    System.out.print("Category ID: ");
-                    int categoryId = Integer.parseInt(scanner.nextLine());
-                    Expense expense = new Expense(0, amount, description, date, userId, categoryId);
-                    expenseService.addExpense(expense);
-                    System.out.print("Expense added. Do you want to add one more? y/n: ");
-                    choice = scanner.nextLine();
+                    try {
+                        System.out.print("Amount: ");
+                        double amount = Double.parseDouble(scanner.nextLine());
+                        System.out.print("Description: ");
+                        String description = scanner.nextLine();
+                        System.out.print("Date (yyyy-mm-dd): ");
+                        LocalDate date = checkDate(scanner.nextLine() );// LocalDate.parse(scanner.nextLine());
+                        System.out.println("List of all categories");
+                        categoryService.getCategories().forEach(System.out::println);
+                        System.out.print("Category ID: ");
+                        int categoryId = Integer.parseInt(scanner.nextLine());
+                        Expense expense = new Expense(0, amount, description, date, userId, categoryId);
+                        expenseService.addExpense(expense);
+                        System.out.print("Expense added. Do you want to add one more? y/n: ");
+                        choice = scanner.nextLine();
+                    } catch (Exception e) {
+                        System.out.println("Something went wrong, please add the values again");
+                    }
+                    
                 }while (choice.equals("y"));
                 
                 break;
             case "4":
                 do{
-                    expenseService.getExpensesByUserId(userId).forEach(System.out::println);
-                    System.out.print("Choose expense to update: ");
-                    int expenseId = Integer.parseInt(scanner.nextLine());
-                    Expense expenseById = expenseService.getExpensesById(userId, expenseId);
-                    System.out.print("Do you want to update amount? y/n: ");
-                    String select = scanner.nextLine();
-                    if(select.equals("y")){
-                        System.out.print("New amount: ");
-                        expenseById.setAmount(Double.parseDouble(scanner.nextLine()));
-                    }
-                    System.out.print("Do you want to update description? y/n: ");
-                    select = scanner.nextLine();
-                    if(select.equals("y")){
-                        System.out.print("New Description: ");
-                        expenseById.setDescription(scanner.nextLine());
-                    }
-                    System.out.print("Do you want to update Date? y/n: ");
-                    select = scanner.nextLine();
-                    if(select.equals("y")){
-                        System.out.print("New Date ex. (yyyy-mm-dd): ");
-                        expenseById.setDate(LocalDate.parse(scanner.nextLine()));;
-                    }
-                    System.out.print("Do you want to update Category? y/n: ");
-                    select = scanner.nextLine();
-                    if(select.equals("y")){
-                        categoryService.getCategories().forEach(System.out::println);
-                        System.out.print("Choose new category ID: ");
-                        expenseById.setCategoryId(Integer.parseInt(scanner.nextLine()));
-                    }
-                    expenseService.updateExpense(expenseById);
-                    System.out.print("Do you want to update one more? y/n: ");
-                    choice = scanner.nextLine();
+                    try {
+                        expenseService.getExpensesByUserId(userId).forEach(System.out::println);
+                        System.out.print("Choose expense to update: ");
+                        int expenseId = Integer.parseInt(scanner.nextLine());
+                        Expense expenseById = expenseService.getExpensesById(userId, expenseId);
+                        System.out.print("Do you want to update amount? y/n: ");
+                        String select = scanner.nextLine();
+                        if(select.equals("y")){
+                            System.out.print("New amount: ");
+                            expenseById.setAmount(Double.parseDouble(scanner.nextLine()));
+                        }
+                        System.out.print("Do you want to update description? y/n: ");
+                        select = scanner.nextLine();
+                        if(select.equals("y")){
+                            System.out.print("New Description: ");
+                            expenseById.setDescription(scanner.nextLine());
+                        }
+                        System.out.print("Do you want to update Date? y/n: ");
+                        select = scanner.nextLine();
+                        if(select.equals("y")){
+                            System.out.print("New Date ex. (yyyy-mm-dd): ");
+                            expenseById.setDate(checkDate(scanner.nextLine()));//LocalDate.parse(scanner.nextLine()));;
+                        }
+                        System.out.print("Do you want to update Category? y/n: ");
+                        select = scanner.nextLine();
+                        if(select.equals("y")){
+                            categoryService.getCategories().forEach(System.out::println);
+                            System.out.print("Choose new category ID: ");
+                            expenseById.setCategoryId(Integer.parseInt(scanner.nextLine()));
+                        }
+                        expenseService.updateExpense(expenseById);
+                        System.out.print("Do you want to update one more? y/n: ");
+                        choice = scanner.nextLine();
+                    } catch (Exception e) {
+                        System.out.println("Something went wrong, please add the values again");
+                    }                    
                 }while (choice.equals("y"));
 
                 break;
@@ -140,33 +150,55 @@ public class ExpenseManagement {
         String description = "";
         LocalDate date = null;
         int userId = Session.getCurrentUser().getId();
+        String choice = "";
+        do {
+            System.out.println("\n===== Search Menu =====");
+            System.out.println("1. Search by Category");
+            System.out.println("2. Search by Description");
+            System.out.println("3. Search by Date");
+            System.out.println("0. Exit search menu");
+            System.out.print("Select: ");
+            choice = scanner.nextLine();
+            switch (choice) {
+                case "1":
+                    System.out.println("List of all categories");
+                    categoryService.getCategories().forEach(System.out::println);
+                    System.out.print("Category ID: ");
+                    categoryId = Integer.parseInt(scanner.nextLine());
+                    expenseService.searchExpenses(userId,categoryId,description,date).forEach(System.out::println);
+                    break;
+                case "2":
+                    System.out.print("Description: ");
+                    description = scanner.nextLine();
+                    expenseService.searchExpenses(userId,categoryId,description,date).forEach(System.out::println);
+                    break;
+                case "3":
+                    try {
+                        System.out.print("Date (yyyy-mm-dd): ");
+                        date = checkDate(scanner.nextLine() );//LocalDate.parse(scanner.nextLine());
+                        expenseService.searchExpenses(userId,categoryId,description,date).forEach(System.out::println);
+                        break;
+                    } catch (Exception e) {
+                        System.out.println("Something went wrong, please add the values again");
+                    }
+                case "0":
+                    return;             
+                default:
+                    System.out.println("Invalid choice.");
+            }
+            System.out.println("Do you want to keep searching? y/n: ");
+            choice = scanner.nextLine();
+        } while (choice.equals("y"));
         
-        System.out.println("\n===== Search Menu =====");
-        System.out.println("1. Search by Category");
-        System.out.println("2. Search by Description");
-        System.out.println("3. Search by Date");
-        System.out.print("Select: ");
-        String choice = scanner.nextLine();
-        switch (choice) {
-            case "1":
-                System.out.println("List of all categories");
-                categoryService.getCategories().forEach(System.out::println);
-                System.out.print("Category ID: ");
-                categoryId = Integer.parseInt(scanner.nextLine());
-                expenseService.searchExpenses(userId,categoryId,description,date).forEach(System.out::println);
-                break;
-            case "2":
-                System.out.print("Description: ");
-                description = scanner.nextLine();
-                expenseService.searchExpenses(userId,categoryId,description,date).forEach(System.out::println);
-                break;
-            case "3":
-                System.out.print("Date (yyyy-mm-dd): ");
-                date = LocalDate.parse(scanner.nextLine());
-                expenseService.searchExpenses(userId,categoryId,description,date).forEach(System.out::println);
-                break;
-            default:
-                System.out.println("Invalid choice.");
+    }
+
+    private LocalDate checkDate(String date ){
+        String[] fixing = date.split("-");
+        if(fixing[0].length() < 4){
+            fixing[0] = String.valueOf(LocalDate.now().getYear());
         }
+        int year = Integer.parseInt(fixing[0]), month = Integer.parseInt(fixing[1]), day = Integer.parseInt(fixing[2]);
+
+        return LocalDate.of(year, month, day);
     }
 }
