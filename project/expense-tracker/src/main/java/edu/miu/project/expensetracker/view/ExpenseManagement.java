@@ -7,18 +7,19 @@ import edu.miu.project.expensetracker.model.Expense;
 import edu.miu.project.expensetracker.service.CategoryService;
 import edu.miu.project.expensetracker.service.ExpenseService;
 import edu.miu.project.expensetracker.session.Session;
-
+//To string and budget limit
 public class ExpenseManagement {
     private Scanner scanner = new Scanner(System.in);
     private CategoryService categoryService = new CategoryService();
     private ExpenseService expenseService = new ExpenseService();
-    //Get the budget limit and add try catch
     private int userId;
-    private double totalRexpnse = 0;
-    private double budgetLimit = 0;
+    private double totalRexpnse;
+    private double budgetLimit;
     private boolean mnt;
-    public ExpenseManagement(int userId){
+    public ExpenseManagement(int userId, double budgetLimit){
         this.userId = userId;
+        this.budgetLimit = budgetLimit;
+        this.totalRexpnse = getTotalAmount();
         mnt = true;
     }
 
@@ -49,16 +50,15 @@ public class ExpenseManagement {
                 break;
             case "2":
                 expenseService.getExpensesByUserId(userId).forEach(exp -> {
-                    totalRexpnse += exp.getAmount();
                     System.out.println(" ID: "+exp.getId()+" Amount: "+exp.getAmount()+" Description: "+exp.getDescription()+" Date: "+exp.getDate()+" CategoryID: "+exp.getCategoryId());
                 });
-                System.out.printf("Total Amount of Expenses : %.2f",totalRexpnse);
+                System.out.printf("Total Amount of Expenses : %.2f",getTotalAmount());
                 break;
             case "3":
                 do{
                     try {
                         System.out.print("Amount: ");
-                        double amount = Double.parseDouble(scanner.nextLine());
+                        double amount = budgetLimit(Double.parseDouble(scanner.nextLine()));
                         System.out.print("Description: ");
                         String description = scanner.nextLine();
                         System.out.print("Date (yyyy-mm-dd): ");
@@ -200,5 +200,24 @@ public class ExpenseManagement {
         int year = Integer.parseInt(fixing[0]), month = Integer.parseInt(fixing[1]), day = Integer.parseInt(fixing[2]);
 
         return LocalDate.of(year, month, day);
+    }
+
+    private double getTotalAmount(){
+        return expenseService.getExpensesByUserId(userId).stream().mapToDouble(t -> t.getAmount()).sum();
+    }
+
+    private double budgetLimit(double amount){
+        double newamount = totalRexpnse + amount;
+        while (true){
+            if(newamount > budgetLimit){
+                System.out.println("the amount is over the budget limit");
+                System.out.println("Budget Limit: "+ budgetLimit);
+                System.out.println("Total Expenses: "+ totalRexpnse);
+                System.out.print("please choose anotehr amount");
+                newamount = Double.parseDouble(scanner.nextLine());
+            }else{
+                return newamount;
+            }
+        }      
     }
 }

@@ -181,8 +181,8 @@ public class MainMenu {
         String choice = scanner.nextLine();
 
         int userId = Session.getCurrentUser().getId();
-        System.out.println(userId);
-        ExpenseManagement exMnt = new ExpenseManagement(userId);
+        double budgetLimit = Session.getCurrentUser().getBudgetLimit();
+        ExpenseManagement exMnt = new ExpenseManagement(userId, budgetLimit);
         switch (choice) {
             case "1":
                 categoryService.getCategoriesByUserId(userId).forEach(System.out::println);
