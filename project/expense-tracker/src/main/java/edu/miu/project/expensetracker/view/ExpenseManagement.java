@@ -7,7 +7,7 @@ import edu.miu.project.expensetracker.model.Expense;
 import edu.miu.project.expensetracker.service.CategoryService;
 import edu.miu.project.expensetracker.service.ExpenseService;
 import edu.miu.project.expensetracker.session.Session;
-//To string and budget limit
+
 public class ExpenseManagement {
     private Scanner scanner = new Scanner(System.in);
     private CategoryService categoryService = new CategoryService();
