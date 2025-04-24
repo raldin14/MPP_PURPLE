@@ -1,6 +1,7 @@
 package edu.miu.project.expensetracker.view;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 import edu.miu.project.expensetracker.model.Expense;
@@ -68,9 +69,12 @@ public class ExpenseManagement {
                         System.out.print("Category ID: ");
                         int categoryId = Integer.parseInt(scanner.nextLine());
                         Expense expense = new Expense(0, amount, description, date, userId, categoryId);
-                        expenseService.addExpense(expense);
-                        System.out.print("Expense added. Do you want to add one more? y/n: ");
-                        choice = scanner.nextLine();
+                        if(expense != null){
+                            expenseService.addExpense(expense);
+                            System.out.print("Expense added. Do you want to add one more? y/n: ");
+                            choice = scanner.nextLine();
+                        }else {System.out.println("Cannot add empty information");}                        
+                        
                     } catch (Exception e) {
                         System.out.println("Something went wrong, please add the values again");
                     }
@@ -83,8 +87,8 @@ public class ExpenseManagement {
                     try {
                         expenseService.getExpensesByUserId(userId).forEach(System.out::println);
                         System.out.print("Choose expense to update: ");
-                        int expenseId = Integer.parseInt(scanner.nextLine());
-                        Expense expenseById = expenseService.getExpensesById(userId, expenseId);
+                        //int expenseId = checkExpenseId(Integer.parseInt(scanner.nextLine()), userId);
+                        Expense expenseById = checkExpenseId(Integer.parseInt(scanner.nextLine()), userId);//expenseService.getExpensesById(userId, expenseId);
                         System.out.print("Do you want to update amount? y/n: ");
                         String select = scanner.nextLine();
                         if(select.equals("y")){
@@ -123,9 +127,9 @@ public class ExpenseManagement {
                 do {
                     expenseService.getExpensesByUserId(userId).forEach(System.out::println);
                     System.out.print("Choose expense to Delete: ");
-                    int expenseId = Integer.parseInt(scanner.nextLine());
-                    Expense expenseById = expenseService.getExpensesById(userId, expenseId);
-                    System.out.print("Are you sure you want to delete expense with ID "+expenseId+"? y/n: ");
+                    //int expenseId = checkExpenseId(Integer.parseInt(scanner.nextLine()), userId);//Integer.parseInt(scanner.nextLine());
+                    Expense expenseById = checkExpenseId(Integer.parseInt(scanner.nextLine()), userId);//expenseService.getExpensesById(userId, expenseId);
+                    System.out.print("Are you sure you want to delete expense with ID "+expenseById.getId()+"? y/n: ");
                     String select = scanner.nextLine();
                     if(select.equals("y")){
                         expenseService.deleteExpense(expenseById);
@@ -193,13 +197,17 @@ public class ExpenseManagement {
     }
 
     private LocalDate checkDate(String date ){
-        String[] fixing = date.split("-");
-        if(fixing[0].length() < 4){
-            fixing[0] = String.valueOf(LocalDate.now().getYear());
+        System.out.print(date);
+        String input = date;
+        while (true) {
+            
+            try {
+                return LocalDate.parse(input); // ISO_LOCAL_DATE format：yyyy-MM-dd
+            } catch (DateTimeParseException e) {
+                System.out.print("❌ Invalid date format. Please use yyyy-MM-dd. ");
+                input = scanner.nextLine();
+            }
         }
-        int year = Integer.parseInt(fixing[0]), month = Integer.parseInt(fixing[1]), day = Integer.parseInt(fixing[2]);
-
-        return LocalDate.of(year, month, day);
     }
 
     private double getTotalAmount(){
@@ -219,5 +227,17 @@ public class ExpenseManagement {
                 return newamount;
             }
         }      
+    }
+
+    private Expense checkExpenseId(int id, int userId){
+        System.out.println(expenseService.getExpensesById(userId, id).getId());
+        while (true) {
+            if(expenseService.getExpensesById(userId, id).getId() != 0){
+                return expenseService.getExpensesById(userId, id);
+            }else{
+                System.out.print("Id doesn't exist please select one: ");
+                id = scanner.nextInt();
+            }
+        }        
     }
 }
