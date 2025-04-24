@@ -1,3 +1,9 @@
+package edu.miu.lab13.prob4.Parta;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public class PartASol {
     public static void main(String[] args) {
         //a. Is there a compiler error in the following lines of code? If so, where?
@@ -14,7 +20,7 @@ public class PartASol {
 
     public static double sum(Collection<? extends Number> nums) {
         double s = 0.0;
-        for(Number num : nums) s += num.doubleValue();
+        for (Number num : nums) s += num.doubleValue();
         return s;
     }
 }

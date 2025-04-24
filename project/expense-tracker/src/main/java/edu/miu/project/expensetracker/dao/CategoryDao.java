@@ -71,4 +71,33 @@ public class CategoryDao {
             e.printStackTrace();
         }
     }
+
+    public void update(Category category) {
+        String sql = "UPDATE categories SET name = ?, description = ? WHERE id = ?";
+
+        try (Connection conn = JdbcUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, category.getName());
+            stmt.setString(2, category.getDescription());
+            stmt.setInt(3, category.getId());
+
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delete(int id) {
+        String sql = "DELETE FROM categories WHERE id = ?";
+
+        try (Connection conn = JdbcUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -19,4 +19,12 @@ public class CategoryService {
     public List<Category> getCategoriesByUserId(int userId) {
         return categoryDao.findByUserId(userId);
     }
+
+    public void updateCategory(Category category) {
+        categoryDao.update(category);
+    }
+
+    public void deleteCategory(int id) {
+        categoryDao.delete(id);
+    }
 }

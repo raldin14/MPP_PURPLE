@@ -1,3 +1,9 @@
+package edu.miu.lab13.prob4.Partb;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public class PartbSol {
     public static void main(String[] args) {
         //b. Is there a compiler error in the following lines of code? If so, where?

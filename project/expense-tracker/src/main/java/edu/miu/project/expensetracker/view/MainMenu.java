@@ -1,22 +1,25 @@
 package edu.miu.project.expensetracker.view;
 
-import edu.miu.project.expensetracker.model.Category;
-import edu.miu.project.expensetracker.model.Expense;
+import edu.miu.project.expensetracker.model.Report;
 import edu.miu.project.expensetracker.model.User;
 import edu.miu.project.expensetracker.service.CategoryService;
-import edu.miu.project.expensetracker.service.ExpenseService;
+import edu.miu.project.expensetracker.service.ReportService;
 import edu.miu.project.expensetracker.service.UserService;
 import edu.miu.project.expensetracker.session.Session;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
 public class MainMenu {
     private Scanner scanner = new Scanner(System.in);
+
     private UserService userService = new UserService();
+
     private CategoryService categoryService = new CategoryService();
-    private ExpenseService expenseService = new ExpenseService();
+
+    private ReportService reportService = new ReportService();
 
     public void start() {
         while (true) {
@@ -145,10 +148,48 @@ public class MainMenu {
         }
     }
 
+    private void handleReportMenu(int userId) {
+        System.out.println("===== Report Menu =====");
+        System.out.println("1. Report by Category");
+        System.out.println("2. Report by Date Range");
+        System.out.print("Select: ");
+        String choice = scanner.nextLine();
+
+        switch (choice) {
+            case "1":
+                System.out.print("Enter category ID: ");
+                int categoryId = Integer.parseInt(scanner.nextLine());
+                Report report1 = reportService.generateByCategory(userId, categoryId);
+                System.out.println(report1);
+                break;
+            case "2":
+                LocalDate start = readDate("Start date (yyyy-MM-dd): ");
+                LocalDate end = readDate("End date (yyyy-MM-dd): ");
+                Report report2 = reportService.generateByDateRange(userId, start, end);
+                System.out.println(report2);
+                break;
+            default:
+                System.out.println("Invalid choice.");
+        }
+    }
+
+    private LocalDate readDate(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = scanner.nextLine();
+            try {
+                return LocalDate.parse(input); // ISO_LOCAL_DATE format：yyyy-MM-dd
+            } catch (DateTimeParseException e) {
+                System.out.println("❌ Invalid date format. Please use yyyy-MM-dd.");
+            }
+        }
+    }
+
     private void showAdminMenu() {
         System.out.println("\n===== Admin Menu =====");
         System.out.println("1. View All Users");
         System.out.println("2. Register Users/Admin");
+        System.out.println("3. Manage Categories");
         System.out.println("0. Logout");
         System.out.print("Select: ");
         String choice = scanner.nextLine();
@@ -157,11 +198,15 @@ public class MainMenu {
             case "1":
                 List<User> users = userService.getAllUsers();
                 users.forEach(user -> {
-                    System.out.println("Id: "+user.getId()+" Username: "+user.getUsername()+" Role: "+user.getRole()+" Budget Limit: $"+user.getBudgetLimit());
+                    System.out.println("Id: " + user.getId() + " Username: " + user.getUsername() + " Role: " + user.getRole() + " Budget Limit: $" + user.getBudgetLimit());
                 });
                 break;
             case "2":
                 handleRegister();
+                break;
+            case "3":
+                AdminCategoryManagement adminCategoryManagement = new AdminCategoryManagement();
+                adminCategoryManagement.start();
                 break;
             case "0":
                 Session.logout();
@@ -174,8 +219,8 @@ public class MainMenu {
     private void showUserMenu() {
         System.out.println("\n===== User Menu =====");
         System.out.println("1. View Categories");
-        System.out.println("2. Add Category");
-        System.out.println("3. Expenses Management");
+        System.out.println("2. Expenses Management");
+        System.out.println("3. View Reports");
         System.out.println("0. Logout");
         System.out.print("Select: ");
         String choice = scanner.nextLine();
@@ -188,15 +233,10 @@ public class MainMenu {
                 categoryService.getCategoriesByUserId(userId).forEach(System.out::println);
                 break;
             case "2":
-                System.out.print("Category name: ");
-                String name = scanner.nextLine();
-                System.out.print("Description: ");
-                String desc = scanner.nextLine();
-                categoryService.addCategory(new Category(0, name, desc, userId));
-                System.out.println("Category added.");
+                exMnt.startExpenses();
                 break;
             case "3":
-                exMnt.startExpenses();
+                handleReportMenu(userId);
                 break;
             case "0":
                 Session.logout();
